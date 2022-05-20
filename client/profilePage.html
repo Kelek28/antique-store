@@ -1,0 +1,67 @@
+{% extends "index.html" %} {% block content %}
+<div class="card">
+  <!-- Account details card-->
+  <div class="card mb-4">
+    <div class="card-header">Account Details</div>
+    <div class="card-body">
+      <form method="post" action="/edit">
+        <!-- Form Row-->
+        <div class="row gx-3 mb-3">
+          <!-- Form Group (first name)-->
+          <div class="col-md-6">
+            <label class="small mb-1" for="inputFirstName">First name</label>
+            <input
+              class="form-control"
+              id="inputFirstName"
+              type="text"
+              name="firstName"
+              placeholder="Enter your first name"
+              value="{{session['firstName']}}"
+            />
+          </div>
+          <!-- Form Group (last name)-->
+          <div class="col-md-6">
+            <label class="small mb-1" for="inputLastName">Last name</label>
+            <input
+              class="form-control"
+              id="inputLastName"
+              name="lastName"
+              type="text"
+              placeholder="Enter your last name"
+              value="{{session['lastName']}}"
+            />
+          </div>
+        </div>
+        <!-- Form Group (email address)-->
+        <div class="mb-3">
+          <label class="small mb-1" for="inputEmailAddress"
+            >Email address</label
+          >
+          <input
+            class="form-control"
+            id="inputEmailAddress"
+            name="emailAddress"
+            type="email"
+            placeholder="Enter your email address"
+            value="{{session['emailAddress']}}"
+          />
+        </div>
+        <!-- Form Group (password)-->
+        <div class="mb-3">
+          <label class="small mb-1" for="inputUsername">Password</label>
+          <input
+            class="form-control"
+            id="inputUsername"
+            type="password"
+            name="password"
+            placeholder="Enter your username"
+            value="username"
+          />
+        </div>
+        <!-- Save changes button-->
+        <input type="submit" class="btn btn-primary" value="Save changes" />
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock%}

@@ -1,0 +1,112 @@
+{% extends "index.html" %} {% block content %}
+<div id="formAddItem" class="card">
+  <div class="card-body">
+    <a class="btn btn-primary" onclick="showAddingForm()">
+      <i class="bi bi-x"></i>
+    </a>
+    <form method="post" action="/additem" enctype="multipart/form-data">
+      <!-- Form Row-->
+      <div class="row p-3">
+        <!-- Form Group (description)-->
+        <div class="col-6">
+          <label class="small mb-1" for="inputDescription">Description</label>
+          <input
+            class="form-control"
+            id="inputDescription"
+            type="text"
+            name="description"
+            placeholder="Enter description of item"
+            value=""
+            required
+          />
+        </div>
+        <!-- Form Group (image_url)-->
+        <div class="col-3">
+          <label class="small mb-1" for="img">Image link</label>
+          <input
+            class="form-control"
+            type="text"
+            id="img"
+            name="file"
+            placeholder="paste link to photo"
+            value=""
+            onkeyup="checkUrl()"
+          />
+        </div>
+        <!-- Form Group (price)-->
+        <div class="col-3">
+          <label class="small mb-1" for="inputPrice">Price</label>
+          <input
+            class="form-control"
+            id="inputPrice"
+            name="price"
+            type="number"
+            placeholder="Enter item price"
+            value=""
+            min="1"
+            required
+          />
+        </div>
+      </div>
+      <!-- Save changes button-->
+      <input
+        type="submit"
+        class="btn btn-primary"
+        value="Save changes"
+        id="submitNewItem"
+      />
+    </form>
+  </div>
+</div>
+<div class="row justify-content-center" id="items">
+  {% for item in items %}
+  <div class="col-12 col-sm-6 col-md-3">
+    <a
+      id="itemCard"
+      href="{{url_for('productDetails', productId=item.product_id)}}"
+    >
+      <div class="card m-3">
+        <img
+          src="{{item.image_url}}"
+          class="card-img-top"
+          alt="{{item_description}}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">
+            {{
+            item.description }}
+          </h5>
+          <p class="card-text">£{{item.price}}</p>
+          {% if not item.purchase_id %}
+          <a
+            href="{{url_for('buyNow', productId=item.product_id)}}"
+            class="btn btn-primary"
+            >Buy now</a
+          >
+
+          <!-- href="{{url_for('addItemToCart', productId=item.product_id)}}" -->
+          <a
+            class="btn btn-primary"
+            onclick="addItemToCart({{item.product_id}})"
+            >Add to cart</a
+          >
+          {% endif %}
+          {% if item.purchase_id %}<span class="text-danger">SOLD</span>
+</br>{% endif %}
+          {% if session['role'] == "Admin" %}
+          <div class="row mt-2">
+            <a
+              class="btn btn-danger"
+              onclick="deleteItem({{ item.product_id }})"
+            >
+              <i class="bi bi-trash"></i>
+            </a>
+          </div>
+          {%endif%}
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

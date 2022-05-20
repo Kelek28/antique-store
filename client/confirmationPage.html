@@ -1,0 +1,132 @@
+{% extends "index.html" %} {% block content %}
+<body oncontextmenu="false" class="snippet-body">
+  <div class="container mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="text-left logo p-2 px-5"></div>
+          <div class="invoice p-5">
+            <h2>Your order is confirmed!</h2>
+            <span
+              >All orders are shipped within
+              two working days.</span
+            >
+            <div
+              class="payment border-top mt-3 mb-3 border-bottom table-responsive"
+            >
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="py-2">
+                        <span class="d-block text-muted">Order Date</span>
+                        <span>{{purchase.date}}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="py-2">
+                        <span class="d-block text-muted">Order No</span>
+                        <span>{{purchase.purchase_id}}</span>
+                      </div>
+                    </td>
+                
+                </tbody>
+              </table>
+            </div>
+            <div class="product border-bottom table-responsive">
+              <table class="table table-borderless">
+                <tbody>
+                  {% for product in products %}
+                  <tr>
+                    <td width="20%">
+                      <img src="{{product.image_url}}" width="90" />
+                    </td>
+                    <td width="60%">
+                      <span class="font-weight-bold"
+                        >{{product.description}}</span
+                      >
+                      <div class="product-qty">
+                        <span class="d-block">Quantity:1</span>
+                      </div>
+                    </td>
+                    <td width="20%">
+                      <div class="text-right">
+                        <span class="font-weight-bold">£{{product.price}}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="row d-flex justify-content-end">
+              <div class="col-md-5">
+                <table class="table table-borderless">
+                  <tbody class="totals">
+                    <tr>
+                      <td>
+                        <div class="text-left">
+                          <span class="text-muted">Subtotal</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="text-right">
+                          <span>£{{totalCost}}</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="text-left">
+                          <span class="text-muted">Shipping Fee</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="text-right"><span>Free</span></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="text-left">
+                          <span class="text-muted">Tax Fee</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="text-right"><span>£12.25</span></div>
+                      </td>
+                    </tr>
+                    <tr></tr>
+                    <tr class="border-top border-bottom">
+                      <td>
+                        <div class="text-left">
+                          <span class="font-weight-bold">Total</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="text-right">
+                          <span class="font-weight-bold"
+                            >£{{totalCost + 12.25}}</span
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <p>
+             You will receive shipping confirmation email when the item has
+              shipped successfully!
+            </p>
+            <h4>Thanks for shopping with us!</h4>
+            <h3>Unique Antiques</h3>
+          </div>
+          <div class="d-flex justify-content-between footer p-3">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+{%endblock%}

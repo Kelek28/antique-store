@@ -1,0 +1,102 @@
+{% extends "index.html" %} {% block content %}
+<div class="card">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-sm-6 p-5">
+        <img
+          src="{{product.image_url}}"
+          class="card-img-top"
+          alt="product photo"
+        />
+      </div>
+      <div class="col-12 col-sm-6">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Item name</th>
+              <th scope="col">{{product.description}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Price</th>
+              <td>£{{product.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+        {% if not product.purchase_id %}
+        <a
+                            onclick="addItemToCart({{product.product_id}})"
+          class="btn btn-primary"
+          >Add to cart</a
+        >
+        <a
+          href="{{url_for('buyNow', productId=product.product_id)}}"
+          class="btn btn-primary"
+          >Buy now</a
+        >
+        {% endif %} {% if setObj %}
+        <hr />
+        <h5>This item is part of a set:</h5>
+
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Set name</th>
+              <th scope="col">{{setObj.description}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Total Price</th>
+              <td>£{{setObj.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h5>Other items in set:</h5>
+
+        <div class="row justify-content-center" id="items">
+          {% for setProduct in setProducts %} {% if setProduct.product_id !=
+          product.product_id %}
+          <div class="col-12 col-sm-12 col-md-6">
+            <a
+              id="itemCard"
+              href="{{url_for('productDetails', productId=setProduct.product_id)}}"
+            >
+              <div class="card m-3">
+                <img
+                  src="{{setProduct.image_url}}"
+                  class="card-img-top"
+                  alt="product image"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{setProduct.description}}</h5>
+                  <p class="card-text">£{{setProduct.price}}</p>
+                  {% if not setProduct.purchase_id %}
+                  <a
+                    href="{{url_for('buyNow', productId=setProduct.product_id)}}"
+                    class="btn btn-primary"
+                    >Buy now
+                  </a>
+                  <!-- href="{{url_for('addItemToCart', productId=setProduct.product_id)}}" -->
+                  <a
+                    class="btn btn-primary"
+                    onclick="addItemToCart({{setProduct.product_id}})"
+                    >Add to cart
+                  </a>
+                  {% endif %}
+                  {% if setProduct.purchase_id %}<span class="text-danger">SOLD</span>
+</br>{% endif %}
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endif %} {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

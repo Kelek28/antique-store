@@ -1,0 +1,158 @@
+{% extends "index.html" %} {% block content %}
+<head>
+   <!-- Custom styles for this template -->
+   <link href="{{url_for('static', filename='styles/form-validation.css')}}" rel="stylesheet">
+</head>
+<body>
+   <div class="card emptycart">
+      {% if not session["shoppingCart"]|length %}
+      <main>
+         <div class="row justify-content-center ">
+            <img src="{{url_for('static',filename='images/emptycart.png')}}" class="img" alt="empty cart image">
+            <a class="btn btn btn-outline-primary" href="{{ url_for('items') }}" >Start shopping now</a>
+         </div>
+      </main>
+   </div>
+   {%endif%}
+   {% if session["shoppingCart"]|length %}
+   <div class="container">
+   <main>
+      <div class="py-5 text-center">
+         <h2>Checkout Form</h2>
+         <p class="lead">Welcome To &copy; Unique Antiques Checkout Page.</p>
+      </div>
+      <div class="row g-5">
+         <div class="col-md-5 col-lg-4 order-md-last">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+               <span class="text-primary">Your Cart:</span>
+               <span class="badge bg-primary rounded-pill">{{session["shoppingCart"]|length}}</span>
+            </h4>
+            <ul class="list-group mb-3">
+               {% for item in items %}
+               <li class="list-group-item d-flex justify-content-between align-items-start">
+                  <div>
+                     <h6 class="my-0">{{item.description}}</h6>
+                     <small class="text-muted">£{{item.price}}</small>
+                  </div>
+                  <a           href="{{url_for('deleteItemFromCart', productId=item.product_id)}}"
+                     class=" btn badge bg-danger rounded-pill"><i class="bi bi-trash"></i>
+                  </a>
+               </li>
+               {% endfor %}
+               <li class="list-group-item d-flex justify-content-between">
+                  <span>Total (GBP)</span>
+                  <strong>£{{total_cost}}</strong>
+               </li>
+            </ul>
+         </div>
+         <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Billing Address:</h4>
+            <form class="needs-validation" novalidate method="post" action="/pay">
+               <div class="row g-3">
+                  <div class="col-sm-6">
+                     <label for="firstName" class="form-label">First Name:</label>
+                     <input type="text" class="form-control" id="firstName" placeholder="John" value="{{ session['firstName'] }}" required>
+                     <div class="invalid-feedback">
+                        Valid first name is required.
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                     <label for="lastName" class="form-label">Last Name:</label>
+                     <input type="text" class="form-control" id="lastName" placeholder="Appleseed" value="{{ session['lastName'] }}" required>
+                     <div class="invalid-feedback">
+                        Valid last name is required.
+                     </div>
+                  </div>
+                  <div class="col-12">
+                     <label for="email" class="form-label">Email: <span class="text-muted">(Required)</span></label>
+                     <input type="email" class="form-control" id="email" placeholder="you@example.com" value="{{ session['emailAddress'] }}" required>
+                     <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                     </div>
+                  </div>
+                  <div class="col-12">
+                     <label for="address" class="form-label">Address:</label>
+                     <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                     <div class="invalid-feedback">
+                        Please enter your shipping address.
+                     </div>
+                  </div>
+                  <div class="col-12">
+                     <label for="address2" class="form-label">Address 2: <span class="text-muted">(Optional)</span></label>
+                     <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                  </div>
+                  <div class="col-md-5">
+                     <label for="country" class="form-label">Country:</label>
+                     <select class="form-select" id="country" required>
+                        <option value="">Choose...</option>
+                        <!--Add More Countries If Needed.-->
+                        <option>United States</option>
+                        <option>United Kingdom</option>
+                        <option>Germany</option>
+                        <option>Spain</option>
+                     </select>
+                     <div class="invalid-feedback">
+                        Please select a valid country.
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                     <label for="zip" class="form-label">County/State:</label>
+                     <input type="text" class="form-control" id="zip" placeholder="Bristol" required>
+                     <div class="invalid-feedback">
+                        County/State required.
+                     </div>
+                     <div class="col-md-12">
+                        <label for="zip" class="form-label">Postcode/Zip:</label>
+                        <input type="text" class="form-control" id="zip" placeholder="BS16 1JD" required>
+                        <div class="invalid-feedback">
+                           Postcode/Zip required.
+                        </div>
+                     </div>
+
+                  <hr class="my-4">
+                  <h4 class="mb-3">Payment</h4>
+                  <div class="my-3">
+
+                  </div>
+                  <div class="row gy-3">
+                     <div class="col-md-6">
+                        <label for="cc-name" class="form-label">Name On Card:</label>
+                        <input type="text" class="form-control" id="cc-name" placeholder="Mr JS Appleseed" required>
+                        <small class="text-muted">Full name as displayed on card</small>
+                        <div class="invalid-feedback">
+                           Name on card is required
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <label for="cc-number" class="form-label">Card Number:</label>
+                        <input type="text" class="form-control" id="cc-number" placeholder="1234 5678 1234 5678" required>
+                        <div class="invalid-feedback">
+                           Credit card number is required
+                        </div>
+                     </div>
+                     <div class="col-md-3">
+                        <label for="cc-expiration" class="form-label">Expiration:</label>
+                        <input type="text" class="form-control" id="cc-expiration" placeholder="01/25" required>
+                        <div class="invalid-feedback">
+                           Expiration date required
+                        </div>
+                     </div>
+                     <div class="col-md-3">
+                        <label for="cc-cvv" class="form-label">CVV:</label>
+                        <input type="text" class="form-control" id="cc-cvv" placeholder="123" required>
+                        <div class="invalid-feedback">
+                           Security code required
+                        </div>
+                     </div>
+                  </div>
+                  <hr class="my-4">
+                  <button class="w-100 btn btn-primary btn-lg" type="submit">Purchase</button>
+            </form>
+            </div>
+         </div>
+   </main>
+   </div>
+   <script src="{{url_for('static', filename='script/form-validation.js')}}"></script>
+   {%endif%}
+</body>
+{%endblock%}
